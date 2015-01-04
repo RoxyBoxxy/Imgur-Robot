@@ -9,9 +9,8 @@ infinitedubs = 0,
 clientId = "76e0353dbfd399a";
 
 setInterval(function() {
-    if (score > 0) {
+    if (score > 0)
         score--;
-    }
 }, 5000);
 
 function makeid() {
@@ -332,7 +331,7 @@ function main() {
 function prepareResponse() {
     if (error === true) {
         if (errortype == "null") {
-            console.log("Null Error: You are referencing a nonexistent object.");
+            console.log("Null Error: You are referencing a nonexistant object.");
         }
         error = false;
     }
@@ -380,16 +379,8 @@ function prepareImage() {
 }
 
 $(function() {
-    var socket = io('/' + window.channel);
-    socket.on('message', function() {
-      if (AntiSpam === false){
-        if (score < 5) {
-                main();
-        } else if (score == 5){
-        CLIENT.submit("#redPlease wait 6 seconds before sending again");
-        AntiSpam = true;
-        setTimeout(function(){AntiSpam=false;}, 600);
-        }}
+    io('/' + window.channel).on('message', function() {
+      if (AntiSpam === false && score < 5) main();
     });
 });
 
