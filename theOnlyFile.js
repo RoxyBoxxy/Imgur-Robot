@@ -32,11 +32,10 @@ function httpGet(URL) {
 
 var preimageregex = /ima*ge*\s*\/r\/(\w+)/ig;
 var imageregex = /\/r\/(\w+)/i;
-var galleryregex = /#gal+ery(?!\w)/ig;
-var memesregex = /#(me|may){2,}s*(?!\w)/ig;
+var memesregex = /im\/memes*/ig;
 var hashtagregex = /ir\/ ?(\w)+/gi;
 var truehashtagregex = /(\w)+/gi;
-var bestregexlel = /#best(?!\w)/ig;
+var bestregexlel = /ii\/best(?!\w)/ig;
 
 var idregex = /{"id":"(\w{5}|\w{7})"/g;
 var idregex2 = /"(\w{5}|\w{7})"/g;
@@ -140,10 +139,10 @@ function main(data) {
     str = data.message;
     a = str.search(hashtagregex);
     b = str.search(preimageregex);
-    d = str.search(galleryregex);
+    d = str.search("im/gallery");
     g = str.search(memesregex);
     l = str.search(bestregexlel);
-    m = str.indexOf("#news");
+    m = str.indexOf("nn/news");
     n = str.search(checkemregex);
     
     if (data.type === "chat-message"){
