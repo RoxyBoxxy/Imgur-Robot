@@ -34,7 +34,7 @@ var preimageregex = /ima*ge*\s*\/r\/(\w+)/ig;
 var imageregex = /\/r\/(\w+)/i;
 var galleryregex = /#gal+ery(?!\w)/ig;
 var memesregex = /#(me|may){2,}s*(?!\w)/ig;
-var hashtagregex = /# ?(\w)+/gi;
+var hashtagregex = /ir\/ ?(\w)+/gi;
 var truehashtagregex = /(\w)+/gi;
 var bestregexlel = /#best(?!\w)/ig;
 
