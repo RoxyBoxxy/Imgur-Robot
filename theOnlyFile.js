@@ -13,29 +13,6 @@ $(function() {
 
 setInterval(function() { score=0; }, 60000);
 
-function makeid() {
-    var text = "";
-    var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-
-    for (var i = 0; i < 5; i++)
-        text += possible.charAt(Math.floor(Math.random() * possible.length));
-
-    return text;
-}
-
-function checkImage() {
-    if (img.height <= 81) {
-        text = makeid();
-        img = new Image();
-        img.onload = function(){checkImage();};
-        img.src = "https://i.imgur.com/" + text + ".jpg";
-    } else {
-        iURL = img.src;
-        itype = "random";
-        prepareImage();
-    }
-}
-
 function httpGet(URL) {
     $.ajax({
     type: "GET",
@@ -60,7 +37,6 @@ var memesregex = /#(me|may){2,}s*(?!\w)/ig;
 var hashtagregex = /# ?(\w)+/gi;
 var truehashtagregex = /(\w)+/gi;
 var bestregexlel = /#best(?!\w)/ig;
-var randomregex = /#random(?!\w)/ig;
 
 var idregex = /{"id":"(\w{5}|\w{7})"/g;
 var idregex2 = /"(\w{5}|\w{7})"/g;
@@ -164,7 +140,6 @@ function main(data) {
     str = data.message;
     a = str.search(hashtagregex);
     b = str.search(preimageregex);
-    c = str.search(randomregex);
     d = str.search(galleryregex);
     g = str.search(memesregex);
     l = str.search(bestregexlel);
@@ -215,11 +190,6 @@ function main(data) {
                 } 
                 }
                 });
-        } else if (c > -1) {
-            id = makeid();
-            img = new Image();
-            img.onload = function(){checkImage();};
-            img.src = "https://i.imgur.com/" + id + ".jpg";
         } else if (g > -1) {
                 $.ajax({
                 type: "GET",
