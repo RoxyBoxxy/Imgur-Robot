@@ -1,17 +1,17 @@
-var error = false,
-URLs = "",
+var URLs = "",
 score = 0,
 sort = ["day", "week", "month", "year" , "all"],
-locked = 0,
-AntiSpam = false,
-infinite = true,
-infinitedubs = 0,
-clientId = "76e0353dbfd399a";
+AntiSpam = false;
 
-setInterval(function() {
-    if (score > 0)
-        score--;
-}, 5000);
+authorization = 'Client-ID 76e0353dbfd399a';
+
+$(function() {
+    io('/' + window.channel).on('message', function(data) {
+      if (AntiSpam == false && score <= 10) main(data);
+    });
+});
+
+setInterval(function() { score=0; }, 60000);
 
 function makeid() {
     var text = "";
@@ -67,40 +67,20 @@ var idregex2 = /"(\w{5}|\w{7})"/g;
 
 var urlregex = /https*:\/\/(\w|\.|\/|-)+\.(gif|jpg|jpeg)/gi;
 
-var authorization = 'Client-ID ' + clientId;
-
 // Checkem
 
 function checkem() {
-    if (infinitedubs === 0){
-    var text = "";
-    var possible = "123456789";
-    
-    text += possible.charAt(Math.floor(Math.random() * possible.length));
-    possible = possible + "0";
+    var datapool = "3141592653589793238462643383279502884197169399375105820974944592307816406286208998628034825342117067982148086513282306647093844609550582231725359408128481117450284102701938521105559644622948954930381964428810975665933446128475648233786783165271201909145648566923460348610454326648213393607260249141273724587006606315588174881520920962829254091715364367892590360011330530548820466521384146951941511609433057270365759591953092186117381932611793105118548074462379962749567351885752724891227938183011949129833673362440656643086021394946395224737190702179860943702770539217176293176752384674818467669405132000568127145263560827";
 
-    for (var i = 0; i < 5; i++)
-        text += possible.charAt(Math.floor(Math.random() * possible.length));
-        
+text = datapool.charAt(Math.floor(Math.random() * datapool.length));
+
+while (text.indexOf("0") != -1)
+text = datapool.charAt(Math.floor(Math.random() * datapool.length));
+
+
+    for (var i = 0; i < 8; i++)
+        text += datapool.charAt(Math.floor(Math.random() * datapool.length));
     return text;
-    } else if (infinitedubs == 1){
-        var text = "";
-        var possible = "123456789";
-        var dubscombo = ["00","11","22","33","44","55","66","77","88","99"];
-        
-        text += possible.charAt(Math.floor(Math.random() * possible.length));
-        possible = possible + "0";
-        
-        for (var i = 0; i < 3; i++)
-        text += possible.charAt(Math.floor(Math.random() * possible.length));
-        
-        text += dubscombo[Math.floor(Math.random()*dubscombo.length)];
-        return text;
-    } else {
-        var sexscombo = ["111111","222222","333333","444444","555555","666666","777777","888888","999999"];
-        text = sexscombo[Math.floor(Math.random()*sexscombo.length)];
-        return text;
-    }
 }
 
 String.prototype.insert = function (index, string) {
@@ -179,10 +159,9 @@ var finalboxregex = /(https*:\/\/(.)+)/gi;
 
 // Main Function
 
-function main() {
+function main(data) {
     
-    str = $('#messages').children().slice(-1)[0].outerHTML;
-
+    str = data.message;
     a = str.search(hashtagregex);
     b = str.search(preimageregex);
     c = str.search(randomregex);
@@ -191,11 +170,8 @@ function main() {
     l = str.search(bestregexlel);
     m = str.indexOf("#news");
     n = str.search(checkemregex);
-    p = str.indexOf("107001000");
-    q = str.indexOf("-000");
-    r = str.indexOf("personal-message");
     
-    if (r == -1){
+    if (data.type === "chat-message"){
     if (n > -1) {
         itype = "checkem";
         checkthis = checkem();
@@ -217,30 +193,6 @@ function main() {
             AntiSpam = true;
             setTimeout(function(){AntiSpam=false;}, 600);
             score++;
-    } else if (p > -1 && q > -1) {
-                if (infinite){
-        if (infinitedubs == 0){
-        infinitedubs = 1;
-        CLIENT.submit("Infinite Dubs mode unlocked");
-        score++;
-        AntiSpam = true;
-        setTimeout(function(){AntiSpam=false;}, 600);
-        } else if (infinitedubs == 1){
-            infinitedubs = 2;
-            CLIENT.submit("??????");
-            score++;
-            AntiSpam = true;
-            setTimeout(function(){AntiSpam=false;}, 600);
-        } else if (infinitedubs == 2){
-            infinitedubs = 0;
-            CLIENT.submit("Cheats Disabled");
-            score++;
-        AntiSpam = true;
-        setTimeout(function(){AntiSpam=false;}, 600);
-        }
-        } else {
-            console.log("disabled");
-        }
     } else if (a > -1) {
         if (d > -1) {
                 $.ajax({
@@ -328,15 +280,6 @@ function main() {
     }
 }
 
-function prepareResponse() {
-    if (error === true) {
-        if (errortype == "null") {
-            console.log("Null Error: You are referencing a nonexistant object.");
-        }
-        error = false;
-    }
-}
-
 function stringify(strArray) {
     var tempstring = "";
     for (var j = 0; j < strArray.length; j++) {
@@ -377,12 +320,6 @@ function prepareImage() {
     setTimeout(function(){AntiSpam=false;}, 600);
     score++;
 }
-
-$(function() {
-    io('/' + window.channel).on('message', function() {
-      if (AntiSpam === false && score < 5) main();
-    });
-});
 
 $.ajax({
     type: "GET",
