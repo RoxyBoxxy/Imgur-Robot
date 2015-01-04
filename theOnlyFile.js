@@ -69,33 +69,34 @@ String.prototype.insert = function(index, string) {
         return string + this;
 };
 
-var checkemregex = /(((?!chem)chec?k?e?m)|chemk|cehkm|(czech|ital(ian|y)|germany?|pol(ish|and)|spa(nish|in)|welsh|brazil(ian)?|russian?|dutch|british( ?commonwealth)?) ?em|new post|gimme (numbers|4chan)|rolling?|rollem|)/ig;
+var checkemregex = /(((?!chem)chec?k?e?m)|chemk|cehkm|(czech|ital(ian|y)|germany?|pol(ish|and)|spa(nish|in)|welsh|brazil(ian)?|russian?|dutch|british( ?commonwealth)?) ?em|new post|gimme (numbers|4chan)|rolling?|rollem)/ig;
 
 var dubsregex = /(\d)\1$/g;
 var tripsregex = /(\d)\1\1$/g;
 var quadsregex = /(\d)\1\1\1$/g;
 var quintsregex = /(\d)\1\1\1\1$/g;
 var sexregex = /(\d)\1\1\1\1\1$/g;
-
-dubs = false;
+var septregex = /(\d)\1\1\1\1\1\1$/g;
+var octoregex = /(\d)\1\1\1\1\1\1\1$/g;
+var nonoregex = /(\d)\1\1\1\1\1\1\1\1$/g;
 
 function processString() {
-    dubs = false;
-    if (checkthis.search(sexregex) > -1) {
+if (checkthis.search(nonoregex) > -1) {
         text = checkthis.insert(0, "#CC00FF");
-        dubs = true;
+} else if (checkthis.search(octoregex) > -1) {
+        text = checkthis.insert(1, "#CC00FF");
+} else if (checkthis.search(septregex) > -1) {
+        text = checkthis.insert(2, "#CC00FF");
+    } else if (checkthis.search(sexregex) > -1) {
+        text = checkthis.insert(3, "#CC00FF");
     } else if (checkthis.search(quintsregex) > -1) {
-        text = checkthis.insert(1, "#FF0000");
-        dubs = true;
+        text = checkthis.insert(4, "#FF0000");
     } else if (checkthis.search(quadsregex) > -1) {
-        text = checkthis.insert(2, "#00FF15");
-        dubs = true;
+        text = checkthis.insert(5, "#00FF15");
     } else if (checkthis.search(tripsregex) > -1) {
-        text = checkthis.insert(3, "#00E1FF");
-        dubs = true;
+        text = checkthis.insert(6, "#00E1FF");
     } else if (checkthis.search(dubsregex) > -1) {
-        text = checkthis.insert(4, "#FFE100");
-        dubs = true;
+        text = checkthis.insert(7, "#FFE100");
     } else {
         text = checkthis;
     }
