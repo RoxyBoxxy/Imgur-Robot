@@ -152,6 +152,7 @@ function main(data) {
     l = str.search(bestregexlel);
     m = str.indexOf("in/news");
     n = str.search(checkemregex);
+    o = str.indexOf('im/gay');
 
     if (data.type === "chat-message") {
         console.log("it worked");
@@ -265,6 +266,13 @@ function main(data) {
             feed = new google.feeds.Feed(newsURL);
             feed.setNumEntries(feedlimit);
             loadit();
+        } else if (o > -1){
+            CLIENT.submit('lel');
+                        AntiSpam = true;
+            setTimeout(function() {
+                AntiSpam = false;
+            }, 600);
+            score++;
         }
     }
 }
